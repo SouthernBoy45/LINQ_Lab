@@ -23,7 +23,7 @@ namespace LINQLab
             //RDemoTwo();
             //RProblemTwo();
             //RProblemThree();
-            RProblemFour();
+            //RProblemFour();
             //RProblemFive();
 
             //// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
@@ -167,7 +167,11 @@ namespace LINQLab
         {
             // Write a LINQ query that gets all of the users who registered AFTER 2016 and BEFORE 2018.
             // Then print each user's email and registration date to the console.
-
+            var usersAfter2016Before20118 = _context.Users.Where(users => users.RegistrationDate.Year > 2016 && users.RegistrationDate.Year < 2018);
+            foreach(User user in usersAfter2016Before20118)
+            {
+                Console.WriteLine($"User Email: {user.Email}\n Registration Date {user.RegistrationDate}");
+            }
         }
         /*
             Expected Result:
@@ -192,7 +196,13 @@ namespace LINQLab
         {
             // Write a LINQ query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
             // Then print the product's name, price, and quantity to the console.
+            var productsInSpecificCart = _context.Shoppingcarts.Include(u => u.User).Include(p => p.Product).Where
+                        (sc => sc.user.Email == "afton@gmail.com");
 
+            foreach (var product in productsInSpecificCart)
+            {
+                Console.WriteLine($"Name: {product.Name}\n Price: {product.Price} \n Quantity in cart: {product.Quantity}");
+            }
 
         }
         /*
@@ -220,7 +230,8 @@ namespace LINQLab
             // HINT: End of query will be: .Select(sc => sc.Product.Price).Sum();
             // Print the total of the shopping cart to the console.
             // Remember to break the problem down and take it one step at a time!
-
+            var odasProducts = _context.Shoppingcarts.Include(sc => sc.Product).Include(sc => sc.User).Where(sc => sc.User.Email == "oda@gmail.com");
+            
 
         }
         /*
@@ -280,8 +291,14 @@ namespace LINQLab
         private void CProblemOne()
         {
             // Create a new Product object and add that product to the Products table. Choose any name and product info you like.
-
-
+            Product newProduct = new Product()
+            {
+                Name = "Xbox Series X",
+                Description = "The latest in gaming technolody",
+                Price = 499.99M
+            };
+            _context.Products.Add(newProduct);
+            _context.SaveChanges();
         }
 
         public void CDemoTwo()
@@ -323,7 +340,10 @@ namespace LINQLab
         private void UProblemOne()
         {
             // Update the price of the product you created in CProblemOne to something different using LINQ.
-
+            var product = _context.Products.Where(p => p.Price == 499.99M).SingleOrDefault();
+            product.Price = 399.99M;
+            _context.Products.Update(product);
+            _context.SaveChanges();
 
         }
 
@@ -332,7 +352,7 @@ namespace LINQLab
             // Change the role of the user we created to "Employee"
             // HINT: You need to delete the existing role relationship and then create a new Userrole object and add it to the Userroles table
             // See the DDemoOne below as an example of removing a role relationship
-
+             
         }
 
         // <><> D Actions (Delete) <><>
