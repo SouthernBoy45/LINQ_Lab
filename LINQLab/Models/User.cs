@@ -11,7 +11,7 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public DateTime? RegistrationDate { get; set; }
+    public DateTime RegistrationDate { get; set; }
 
     public virtual ICollection<Shoppingcart> Shoppingcarts { get; set; } = new List<Shoppingcart>();
 

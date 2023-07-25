@@ -21,9 +21,9 @@ namespace LINQLab
             //RDemoOne();
             //RProblemOne();
             //RDemoTwo();
-            RProblemTwo();
+            //RProblemTwo();
             //RProblemThree();
-            //RProblemFour();
+            RProblemFour();
             //RProblemFive();
 
             //// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
@@ -95,9 +95,9 @@ namespace LINQLab
         {
             // Write a LINQ query that gets each product whose price is less than or equal to $100.
             // Print the name and price of all products
-            var productsOverOrEqualTo100 = _context.Products.Where(p => p.Price >= 100);
-            Console.WriteLine("Products that are greater than, or equal to $100:");
-            foreach (Product product in productsOverOrEqualTo100)
+            var productsUnderOrEqualTo100 = _context.Products.Where(p => p.Price <= 100);
+            Console.WriteLine("Products that are less than or equal to $100:");
+            foreach (Product product in productsUnderOrEqualTo100)
             {
                 Console.WriteLine($"{product.Name} - {product.Price}");
             }
@@ -121,6 +121,13 @@ namespace LINQLab
         public void RProblemThree()
         {
             // Write a LINQ query that gets each product whose name that CONTAINS an "s".
+
+            var productsWithTheLetterS = _context.Products.Where(product => product.Name.Contains("s"));
+            foreach (var product in productsWithTheLetterS)
+
+            {
+                Console.WriteLine(product.Name);
+            }
         }
         /*
             Expected Result:
@@ -140,6 +147,11 @@ namespace LINQLab
         {
             // Write a LINQ query that gets all the users who registered BEFORE 2016.
             // Then print each user's email and registration date to the console.
+            var userEmailPriorTo2016 = _context.Users.Where(users => users.RegistrationDate.Year < 2016);
+            foreach(User user in userEmailPriorTo2016)
+            {
+                Console.WriteLine($"Email:{user.Email},\n Registration Date:{user.RegistrationDate}");
+            }
 
         }
         /*
