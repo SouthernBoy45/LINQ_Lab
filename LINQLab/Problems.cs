@@ -30,7 +30,7 @@ namespace LINQLab
             //RDemoThree();
             //RProblemSix();
             //RProblemSeven();
-            RProblemEight();
+            //RProblemEight();
 
             //// <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
 
@@ -378,13 +378,14 @@ namespace LINQLab
         {
             // Delete all of the product relationships to the user with the email "oda@gmail.com" in the ShoppingCart table using LINQ.
             // HINT: Use a Loop
-
+            var productRelationships = _context.
+            
         }
 
         private void DProblemTwo()
         {
             // Delete the user with the email "oda@gmail.com" from the Users table using LINQ.
-
+            
 
 
         }
