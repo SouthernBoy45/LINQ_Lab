@@ -30,7 +30,7 @@ namespace LINQLab
             //RDemoThree();
             //RProblemSix();
             //RProblemSeven();
-            //RProblemEight();
+            RProblemEight();
 
             //// <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
 
@@ -197,11 +197,11 @@ namespace LINQLab
             // Write a LINQ query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
             // Then print the product's name, price, and quantity to the console.
             var productsInSpecificCart = _context.Shoppingcarts.Include(u => u.User).Include(p => p.Product).Where
-                        (sc => sc.user.Email == "afton@gmail.com");
+                        (sc => sc.User.Email == "afton@gmail.com");
 
             foreach (var product in productsInSpecificCart)
             {
-                Console.WriteLine($"Name: {product.Name}\n Price: {product.Price} \n Quantity in cart: {product.Quantity}");
+                Console.WriteLine($"Name: {product.Product.Name}\n Price: {product.Product.Price} \n Quantity in cart: {product.Quantity}");
             }
 
         }
@@ -230,19 +230,26 @@ namespace LINQLab
             // HINT: End of query will be: .Select(sc => sc.Product.Price).Sum();
             // Print the total of the shopping cart to the console.
             // Remember to break the problem down and take it one step at a time!
-            var odasProducts = _context.Shoppingcarts.Include(sc => sc.Product).Include(sc => sc.User).Where(sc => sc.User.Email == "oda@gmail.com");
-            
-
+            var odasProducts = _context.Shoppingcarts.Include(p => p.Product).Include(u => u.User).Where(u => u.User.Email == "oda@gmail.com")
+                .Select(sc => sc.Product.Price).Sum();
+            Console.WriteLine(odasProducts);
         }
         /*
-         Total: $366.51
+         Total: 366.51
          */
 
         public void RProblemEight()
         {
             // Write a query that retrieves all of the products in the shopping cart of users who have the role of "Employee".
             // Then print the product's name, price, and quantity to the console along with the email of the user that has it in their cart.
-
+            var employeeProducts = _context.Shoppingcarts.Where(cart => cart.User.Userroles.Any(ur => ur.Role.RoleName == "Employee"))
+                .Include(cart => cart.Product).Include(cart => cart.User).ToList();
+                
+            foreach (var product in employeeProducts)
+            {
+                Console.WriteLine($"User's Email: {product.User.Email}\n Product Name: {product.Product.Name}\n Product Quantity:" +
+                    $"{product.Quantity}\n Product Price: {product.Product.Price}");
+            }
         }
         /*
             Expected Result
